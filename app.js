@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const cors = require('cors');
+
 
 const app = express();
 
@@ -19,9 +20,9 @@ mongoose.connect(database.mongoURI, {useNewUrlParser: true, useUnifiedTopology: 
     .then(() => console.log('Database Connected'))
     .catch(err => console.log(err));
 
-//BodyParse Middleware
-app.use(bodyParser.urlencoded({extends: false}));
-app.use(bodyParser.json());
+app.use(cors());
+
+app.use(express.json());
 
 app.use(morgan('dev'));
 
