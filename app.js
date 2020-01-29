@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+//import routes
+const adminRoute = require('./api/routes/admin');
+
 //Database config
 const database = require('./api/utils/database');
 
@@ -22,7 +25,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
-
+app.use('/admin', adminRoute);
 
 
 module.exports = app;
