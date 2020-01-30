@@ -4,13 +4,13 @@ const router  = Router();
 
 
 //controllers imports
-const createNewGuard = require('../controllers/admin');
+const adminController = require('../controllers/admin');
 
 //create guard account
-router.post('/new-guard', createNewGuard.newGuardAccount);
+router.post('/new-guard', adminController.newGuardAccount);
 
 //guard login
-router.get('/login', )
+router.get('/guard-login', adminController.guardLogin);
 
 module.exports = router;
 

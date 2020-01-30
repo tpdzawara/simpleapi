@@ -7,7 +7,7 @@ const Guard = new Schema({
     address: { type: String, required: true },
     fullName: { type: String, required: true},
     phoneNumber:{ type: Number, required: true},
-    password: { type: Number, required: true}
+    password: { type: String, required: true}
 })
 
 module.exports = mongoose.model('Guards', Guard);
