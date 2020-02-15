@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 //models imports
 const Admin = require('../models/Admin');
 const Guard = require('../models/Guard');
+const Company = require('../models/Company');
 
 //New Guard registration Controller
 exports.newGuardAccount = (req, res, next) => {
@@ -78,6 +79,62 @@ exports.newGuardAccount = (req, res, next) => {
                 });
                     }
                 })
+}
+
+//Add new Company Client
+exports.addNewCompanyClient = (req, res, next) => {
+    Company.find({email: req.body.email})
+    .exec()
+    .then( company => {
+        if( company.length >= 1) {
+            res.status(409).json({
+                message:'Company existed !'
+            });
+        } else {
+            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                if (err) {
+                    return res.status(500).json({
+                        error: err
+                    });
+                } else {
+                    const company = new Company({
+                        _id: mongoose.Types.ObjectId(),
+                        //company details
+                        companyName: req.body.companyName,
+                        email: req.body.email,
+                        address: req.body.address,
+                        landline: req.body.landline,
+                        cell: req.body.cell,
+                        
+
+                        //Contact Person
+                        name: req.body.name,
+                        position: req.body.position,
+                        phoneNumber: req.body.phoneNumber,
+
+                        //properties
+                        propName: req.body.propName,
+                        physicalAddress: req.body.physicalAddress,
+
+                        businessLine: req.body.businessLine,
+                        password: req.body.password
+
+                    });
+                    company.save()
+                    .then( info => {
+                        res.status(200).json({
+                            message: 'New Company client  Added '
+                        });
+                    });
+                }
+            }); 
+        }
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
 }
 
 // Guard Login
