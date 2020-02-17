@@ -2,225 +2,117 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-//models imports
-const Admin = require('../models/Admin');
-const Guard = require('../models/Guard');
-const Company = require('../models/Company');
-const Stuff = require('../models/Stuff');
-const Individual = require('../models/Individual');
+const { Admin } = require('../models/Admin');
 
-//New Guard registration Controller
-exports.newGuardAccount = (req, res, next) => {
-    Guard.find({ guardId: req.body.guardId })
-        .exec()
-        .then(guard => {
+//Get all admin registered
+exports.getAllAdmin = (req, res, next) => {
 
-            if (guard.length >>= 1) {
-                return res.status(409).json({
-                    message: 'Guard already exist'
-                });
-            } else {
-                        const guard = new Guard({
-                            _id: mongoose.Types.ObjectId(),
-
-                                surname: req.body.surname,
-                                name: req.body.name,
-                                foreName: req.body.foreName,
-                                dateOfBirth: req.body.dateOfBirth,
-                                identityNumber: req.body.identityNumber,
-                                gender: req.body.gender,
-                                maritalStatus: req.body.maritalStatus,
-                                address: req.body.address,
-                                phoneNumber: req.body.phoneNumber,
-                                qualification: req.body.qualification
-                            ,
-
-                                surname: req.body.surname,
-                                name: req.body.name,
-                                foreName: req.body.foreName,
-                                address: req.body.address,
-                                cellNumber: req.body.cellNumber,
-                                relationShip: req.body.relationShip
-                          ,
-
-                                companyName: req.body.companyName,
-                                address: req.body.address,
-                                manager: req.body.manager,
-                                jobTitle: req.body.jobTitle,
-                                contractStatus: req.body.contractStatus,
-                                managerNumber: req.body.managerNumber,
-                                employmentPeriod: req.body.employmentPeriod
-                           ,
-
-                                academics: req.body.academics,
-                                proQualifications: req.body. proQualifications,
-                                driversLicences: req.body.driversLicences
-                           ,
-                            guardId:req.body.guardId,
-                        });
-
-                        guard.save()
-                            .then(doc => {
-                                res.status(200).json({ message: 'New Guard successful Added' });
-                            })
-                            .catch(err => {
-                                res.status(500).json({
-                                    error: err
-                                });
-                            });
-                    }
-                })
-            }
-
-//Add new Company Client
-exports.addNewCompanyClient = (req, res, next) => {
-    Company.find({email: req.body.email})
+    Admin.find({})
     .exec()
-    .then( company => {
-        if( company.length >= 1) {
-            res.status(409).json({
-                message:'Company existed !'
-            });
-        } else {
-                    const company = new Company({
-                        _id: mongoose.Types.ObjectId(),
-                        //company details
-                        companyName: req.body.companyName,
-                        email: req.body.email,
-                        address: req.body.address,
-                        landline: req.body.landline,
-                        cell: req.body.cell,
-                        
-
-                        //Contact Person
-                        name: req.body.name,
-                        position: req.body.position,
-                        phoneNumber: req.body.phoneNumber,
-
-                        //properties
-                        propName: req.body.propName,
-                        physicalAddress: req.body.physicalAddress,
-
-                        businessLine: req.body.businessLine,
-
-                    });
-                    company.save()
-                    .then( info => {
-                        res.status(200).json({
-                            message: 'New Company client  Added '
-                        });
-                    })
-                    .catch( err => {
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-                }
-            }); 
-        }
-    //Add new StaffMenber
-exports.addNewStuffMember = ( req, res, next) => {
-    Stuff.find({ email: req.body.email })
-    .exec()
-    .then(stuffMember => {
-
-        if(stuffMember.length >= 1) {
-            return res.status(409).json({
-                message: 'Member Already Existed'
-            });
-        } else {
-           const stuffMember = new Stuff({
-                _id: mongoose.Types.ObjectId(),
-                email: req.body.email,
-                name: req.body.name,
-                surName: req.body.surName,
-                foreName: req.body.foreName,
-                dateOfBirth: req.body.dateOfBirth,
-                identityNumber: req.body.identityNumber,
-                gender: req.body.gender,
-                maritalStatus: req.body.maritalStatus,
-                address: req.body.address,
-                phoneNumber: req.body.phoneNumber,
-
-                //Next of Keen
-                surName: req.body.surName,
-                firstName: req.body.name,
-                foreName: req.body.foreName,
-                address: req.body.address,
-                cellNumber: req.body.cellNumber,
-                relationShip: req.body.relationShip,
-
-                //Employment History
-                companyName: req.body.companyName,
-                address: req.body.address,
-                manager: req.body.manager,
-                jobTitle: req.body.jobTitle,
-                contractStatus: req.body.contractStatus,
-                managerNumber: req.body.managerNumber,
-                employmentPeriod: req.body.employmentPeriod,
-
-                //Qualifications
-                academics: req.body.academics,
-                proQualifications: req.body. proQualifications,
-                driversLicences: req.body.driversLicences
-           });
-           stuffMember
-           .save()
-           .then( stuff => {
-               res.status(200).json({
-                   message: 'New Stuff Member added.'
-               });
-           })
-           .catch( eror => {
-            res.status(500).json({
-                error: eror
-            });
+    .then( doc => {
+        res.status(201).json({
+            message: doc
         });
+    })
+    .catch(er => {
+        res.status(500).json({
+            error: er
+        })
+    });
+}
+
+//Create Admin Account
+exports.createNewAdmin = (req, res, next) => {
+
+    Admin.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+        if( user.length > 0) {
+            return res.status(500).json({
+                message: 'Already registered, try another email address'
+            });
+        } else {
+            bcrypt.hash(req.body.password, 10, function(err, hash) {
+                //Store hash in your password DB.
+                if(err) {
+                    return res.status(500).json({
+                        error: err
+                    });
+                } else {
+                    const admin = new Admin({
+                        _id: new mongoose.Types.ObjectId(),
+                        fullName: req.body.fullName,
+                        email: req.body.email,
+                        password: hash
+                    });
+                    admin.save()
+                    .then(doc => {
+                        res.status(201).json({
+                            message:'Admin registered Succefully'
+                        });
+                    })
+                    .catch( er => {
+                        res.status(500).json({
+                            error: er
+                        });
+                    });
+                }
+            });
+        }
+    });
+}
+
+//Login Admin
+exports.loginAdmin = (req, res, next) => {
+    Admin.find({ email: req.body.email })
+    .exec()
+    .then(user => {
+        if(user.length <= 0) {
+            return res.status(500).json({
+                message: 'Something went wrong'
+            });
+        } else {
+            bycrpt.compare(req.body.password, user[0], (err, result) =>{
+                console.log('err', err);
+                console.log('result', result);
+                
+                if(err) {
+                    return res.status(500).json({
+                        error: 'Login Failed'
+                    });
+                } else {
+                    if (result) {
+                        
+                        //Create token
+                        const payload = {
+                            userId: user[0]._id,
+                            iat:  Math.floor(Date.now() / 1000) - 30,
+                            exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                        }
+                        jwt.sign(payload, 'mysecretkey', (err, token) => {
+                            if(err) {
+                                return res.status(200).json({
+                                    error: 'err'
+                                });
+                            } else {
+                                res.status(200).json({
+                                    message: 'Login Succefully',
+                                    token: token
+                                });
+                            }
+                        });
+                    } else {
+                        res.status(200).json({
+                            message: 'Login Failed'
+                        });
+                    }
+                }
+            });
         }
     })
-    
-}
-
-//Add new Individual client
-exports.newIndividualClient = ( req, res, next) => {
-    Individual.find({ email: req.body.email })
-    .exec()
-    .then( individualClient => {
-        if(individualClient.length >= 1) {
-            return res.status(409).json({
-                message: 'Client with these details has already added.'
-            });
-        } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if(err){
-                    return res.status(500).json({
-                        error: 'Something went wrong'
-                    });
-        } else {
-            const individualClient = new Individual({
-                _id: mongoose.Types.ObjectId(),
-                email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                idNumber: req.body.idNumber,
-                address: req.body.address,
-                phoneNumber: req.body.phoneNumber,
-                password: hash
-            })
-            individualClient
-            .save()
-            .then( saved => {
-                res.status(200).json({
-                    message: 'New Individual Client Registered'
-                })
-                .catch( errors => {
-                    res.status(500).json({
-                        error: errors
-                    });
-                });
-            });
-        }
-    });
-}
-    });
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    })
 }

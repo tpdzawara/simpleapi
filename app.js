@@ -7,8 +7,8 @@ const cors = require('cors');
 const app = express();
 
 //import routes
-const adminRoute = require('./api/routes/admin');
-
+const registrationRoute = require('./api/routes/registration');
+const adminROute = require('./api/routes/admin');
 //Database config
 const database = require('./api/utils/database');
 
@@ -28,7 +28,8 @@ app.use(express.json());
 
 app.use(morgan('dev'));
 
-app.use('/admin', adminRoute);
+app.use('/admin', registrationRoute);
+app.use('/admin', adminROute)
 
 
 module.exports = app;

@@ -1,22 +1,18 @@
 const { Router } = require('express');
+const router = Router();
 
-const router  = Router();
+
+const AdminController = require('../controllers/admin');
 
 
-//controllers imports
-const RoutesController = require('../controllers/admin');
-//Add a new Guard
-router.post('/new-guard', RoutesController.newGuardAccount);
 
-//Add new Company Client
-router.post('/new-company', RoutesController.addNewCompanyClient);
+//Get All registered adminstrators
+router.get('/', AdminController.getAllAdmin);
 
-//Add new Stuff Member
-router.post('/new-stuff', RoutesController.addNewStuffMember);
+//register admin
+router.post('/signup', AdminController.createNewAdmin);
 
-//Add Individual Client
-router.post('/new-individual', RoutesController.newIndividualClient);
+//login admin
+router.post('/login', AdminController.loginAdmin)
 
 module.exports = router;
-
- 
