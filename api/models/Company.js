@@ -23,7 +23,6 @@ const Company = new Schema({
     propName: { type: String, required: true },
     physicalAddress: { type: String, required: true },
 
-    password: {type: String, required: true},
     businessLine: { type: String, required: true }
 })
 

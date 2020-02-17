@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
-const personalDetailsSchema = new Schema({
+const StuffSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     email: {type: String,
         required: true,
@@ -43,4 +43,4 @@ const personalDetailsSchema = new Schema({
 });
 
 
-module.exports = mongoose.model('StuffMembers', personalDetailsSchema);
+module.exports = mongoose.model('StuffMembers', StuffSchema);

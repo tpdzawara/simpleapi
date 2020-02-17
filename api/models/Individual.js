@@ -7,7 +7,7 @@ const Individual = new Schema({
     lastName: { type: String, required: true},
     email: {type: String, required: true, unique: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
     password: {type: String, required: true},
-    idNumber: { type: Number, required: true, min: 11 , max: 11},
+    idNumber: { type: String, required: true },
     address: { type: String, required: true},
     phoneNumber: { type: Number, require: true}
 

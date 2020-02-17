@@ -12,13 +12,15 @@ const adminRoute = require('./api/routes/admin');
 //Database config
 const database = require('./api/utils/database');
 
-//Preventing mongoose from global errors
-mongoose.Promise = global.Promise;
-
 //Connecting to mongoose
-mongoose.connect(database.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(database.mongoURI,
+    {useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true })
     .then(() => console.log('Database Connected'))
     .catch(err => console.log(err));
+//Preventing mongoose from global errors
+mongoose.Promise = global.Promise;
 
 app.use(cors());
 

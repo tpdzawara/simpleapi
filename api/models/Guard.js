@@ -36,8 +36,7 @@ const Guard = new Schema({
         proQualifications: { type: String, required: true },
         driversLicences: { type: String, required: true },
 
-    guardId: { type: String, unique: true, required: true},
-    password: { type: String, required: true},
+    guardId: { type: String, unique: true, required: true}
 
 
 })

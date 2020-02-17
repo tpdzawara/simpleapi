@@ -4,16 +4,19 @@ const router  = Router();
 
 
 //controllers imports
-const guardController = require('../controllers/admin');
-const addcompanyClientController = require('../controllers/admin');
-//create guard account
-router.post('/new-guard', guardController.newGuardAccount);
+const RoutesController = require('../controllers/admin');
+//Add a new Guard
+router.post('/new-guard', RoutesController.newGuardAccount);
 
-//Add new company in system
-router.post('/new-company', addcompanyClientController.addNewCompanyClient);
+//Add new Company Client
+router.post('/new-company', RoutesController.addNewCompanyClient);
 
-//guard login
-router.get('/guard-login', guardController.guardLogin);
+//Add new Stuff Member
+router.post('/new-stuff', RoutesController.addNewStuffMember);
+
+//Add Individual Client
+router.post('/new-individual', RoutesController.newIndividualClient);
 
 module.exports = router;
 
+ 
