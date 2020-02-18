@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { Admin } = require('../models/Admin');
+const  Admin  = require('../models/Admin');
 
 //Get all admin registered
 exports.getAllAdmin = (req, res, next) => {
