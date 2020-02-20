@@ -120,7 +120,7 @@ exports.addNewCompanyClient = (req, res, next) => {
         }
     //Add new StaffMenber
 exports.addNewStuffMember = ( req, res, next) => {
-    Stuff.find({ email: req.body.email })
+    Stuff.find({ _id: req.body._id })
     .exec()
     .then(stuffMember => {
 
@@ -131,38 +131,19 @@ exports.addNewStuffMember = ( req, res, next) => {
         } else {
            const stuffMember = new Stuff({
                 _id: mongoose.Types.ObjectId(),
-                email: req.body.email,
-                name: req.body.name,
+                firstName: req.body.firstName,
                 surName: req.body.surName,
-                foreName: req.body.foreName,
                 dateOfBirth: req.body.dateOfBirth,
-                identityNumber: req.body.identityNumber,
-                gender: req.body.gender,
-                maritalStatus: req.body.maritalStatus,
                 address: req.body.address,
                 phoneNumber: req.body.phoneNumber,
-
-                //Next of Keen
-                surName: req.body.surName,
-                firstName: req.body.name,
-                foreName: req.body.foreName,
-                address: req.body.address,
-                cellNumber: req.body.cellNumber,
-                relationShip: req.body.relationShip,
-
-                //Employment History
-                companyName: req.body.companyName,
-                address: req.body.address,
-                manager: req.body.manager,
-                jobTitle: req.body.jobTitle,
-                contractStatus: req.body.contractStatus,
-                managerNumber: req.body.managerNumber,
-                employmentPeriod: req.body.employmentPeriod,
-
-                //Qualifications
-                academics: req.body.academics,
-                proQualifications: req.body. proQualifications,
-                driversLicences: req.body.driversLicences
+                idNumber: req.body.idNumber,
+                nationality: req.body.nationality,
+                gender: req.body.gender,
+                department: req.body.department,
+                jobDescription: req.body.jobDescription,
+                employmentType: req.body.employmentType,
+                payRate: req.body.payRate,
+                startDate: req.body.startDate
            });
            stuffMember
            .save()

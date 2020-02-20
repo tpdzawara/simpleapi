@@ -1,31 +1,15 @@
 {
-  "name": "Jacob",
+  "firstName": "Jacob",
   "surName": "Dane",
-  "foreName": "Gibs",
-  "email": "gibbsjacob@gmail.com",
   "dateOfBirth": "06-09-1988",
-  "identityNumber": "47-345687M47",
-  "gender": "Male",
-  "maritalStatus": "Married",
   "address": "4637 Mashamu",
   "phoneNumber": "4375583758",
-
-  "surName": "Dzivavo",
-  "name": "Nicodem",
-  "forename": "James",
-  "address": " 22 Spark drive",
-  "cellNumber": "376472278",
-  "relationShip": "Uncle",
-  
-  "companyName": "BinMark",
-  "address": "36 drhsa basara",
-  "manager": "George Bendro",
-  "jobTitle": "Accountant",
-  "contractStatus": "FullTime",
-  "managerNumber": "583388292993",
-  "employmentPeriod": "2017-2019",
-
-  "academics": "12 Points A level",
-  "proQualifications": "Bachelous degree in Accounting",
-  "driversLicences": "Class 2"
+  "idNumber": "47-345687M47",
+  "nationality": "Zimbabwean",
+  "gender": "Male",
+  "department": "Marketing",
+  "jobDescription": "Marketer",
+  "employmentType": "Contract",
+  "payRate": "2600",
+  "startDate": "1 March 2020"
 }
