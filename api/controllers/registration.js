@@ -5,63 +5,31 @@ const jwt = require('jsonwebtoken');
 //models imports
 const Admin = require('../models/Admin');
 const Guard = require('../models/Guard');
-const Company = require('../models/Company');
 const Stuff = require('../models/Stuff');
 const Client = require('../models/Client');
 
-//New Guard registration Controller
+//New Guard registration 16
 exports.newGuardAccount = (req, res, next) => {
-    Guard.find({ guardId: req.body.guardId })
+    Guard.find({ _id: req.body._id })
         .exec()
         .then(guard => {
-
             if (guard.length >>= 1) {
-                return res.status(409).json({
+                return 
+                res.status(409).json({
                     message: 'Guard already exist'
                 });
             } else {
                         const guard = new Guard({
                             _id: mongoose.Types.ObjectId(),
-
-                                surname: req.body.surname,
-                                name: req.body.name,
-                                foreName: req.body.foreName,
-                                dateOfBirth: req.body.dateOfBirth,
-                                identityNumber: req.body.identityNumber,
-                                gender: req.body.gender,
-                                maritalStatus: req.body.maritalStatus,
-                                address: req.body.address,
-                                phoneNumber: req.body.phoneNumber,
-                                qualification: req.body.qualification
-                            ,
-
-                                surname: req.body.surname,
-                                name: req.body.name,
-                                foreName: req.body.foreName,
-                                address: req.body.address,
-                                cellNumber: req.body.cellNumber,
-                                relationShip: req.body.relationShip
-                          ,
-
-                                companyName: req.body.companyName,
-                                address: req.body.address,
-                                manager: req.body.manager,
-                                jobTitle: req.body.jobTitle,
-                                contractStatus: req.body.contractStatus,
-                                managerNumber: req.body.managerNumber,
-                                employmentPeriod: req.body.employmentPeriod
-                           ,
-
-                                academics: req.body.academics,
-                                proQualifications: req.body. proQualifications,
-                                driversLicences: req.body.driversLicences
-                           ,
-                            guardId:req.body.guardId,
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName,
+                            address: req.body.address
                         });
-
                         guard.save()
                             .then(doc => {
-                                res.status(200).json({ message: 'New Guard successful Added' });
+                                res.status(200).json({ 
+                                    message: 'New Guard successful Added' 
+                                });
                             })
                             .catch(err => {
                                 res.status(500).json({
@@ -69,55 +37,8 @@ exports.newGuardAccount = (req, res, next) => {
                                 });
                             });
                     }
-                })
+                });
             }
-
-//Add new Company Client
-/*exports.addNewCompanyClient = (req, res, next) => {
-    Company.find({email: req.body.email})
-    .exec()
-    .then( company => {
-        if( company.length >= 1) {
-            res.status(409).json({
-                message:'Company existed !'
-            });
-        } else {
-                    const company = new Company({
-                        _id: mongoose.Types.ObjectId(),
-                        //company details
-                        companyName: req.body.companyName,
-                        email: req.body.email,
-                        address: req.body.address,
-                        landline: req.body.landline,
-                        cell: req.body.cell,
-                        
-
-                        //Contact Person
-                        name: req.body.name,
-                        position: req.body.position,
-                        phoneNumber: req.body.phoneNumber,
-
-                        //properties
-                        propName: req.body.propName,
-                        physicalAddress: req.body.physicalAddress,
-
-                        businessLine: req.body.businessLine,
-
-                    });
-                    company.save()
-                    .then( info => {
-                        res.status(200).json({
-                            message: 'New Company client  Added '
-                        });
-                    })
-                    .catch( err => {
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-                }
-            }); 
-        }*/
     //Add new StaffMenber
 exports.addNewStuffMember = ( req, res, next) => {
     Stuff.find({ _id: req.body._id })
@@ -157,9 +78,8 @@ exports.addNewStuffMember = ( req, res, next) => {
                 error: eror
             });
         });
-        }
-    })
-    
+      }
+    })  
 }
 
 //Add new Individual client

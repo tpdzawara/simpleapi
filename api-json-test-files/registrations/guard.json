@@ -1,38 +1,8 @@
 {
-
- "surname": "Chitbao",
-  "name": "RObson",
-  "foreName": "Jerry",
-  "dateOfBirth": "28_11_1973",
-  "identityNumber": "63675846s63",
-  "gender": "Male",
-  "maritalStatus": "Maried",
-  "address": "23 volcon road chaser",
-  "phoneNumber": "026365347",
-  "qualification": "5 Olevels including English & Maths",
-
-
-  " surname": "Mahwisa",
-  "name":  "Terencre",
-  "foreName": "Denva",
-  "address": "Tongogara Avenue",
-  "cellNumber":  "07185949493",
-  "relationShip": "Uncle"
-,
-
-
-  "companyName": "Jubo Santozi",
-  "address": "New Headlands Road",
-  "manager": "Madzimure R",
-  "jobTitle": "Guard",
-  "contractStatus": "fulltime",
-  "managerNumber": "0914838385",
-  "employmentPeriod": "6 months",
-
-  "academics": "5 olevels",
-  "proQualifications": "Diplomain r37ch",
-  "driversLicences": "573755-335328-5845"
-,
-  "guardId": "werywwue",
-  "password": "012345"
+  "fullName": "Jerry Gaizw",
+  "email": "jackgaizw@hotmail.com",
+  "contactName": "JayJack Gaizw",
+  "address": "77 Park street",
+  "phoneNumber": "362633622664",
+  "mobileNumber": "46337284992"
 }
