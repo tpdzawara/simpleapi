@@ -7,7 +7,7 @@ const Admin = require('../models/Admin');
 const Guard = require('../models/Guard');
 const Company = require('../models/Company');
 const Stuff = require('../models/Stuff');
-const Individual = require('../models/Individual');
+const Client = require('../models/Client');
 
 //New Guard registration Controller
 exports.newGuardAccount = (req, res, next) => {
@@ -73,7 +73,7 @@ exports.newGuardAccount = (req, res, next) => {
             }
 
 //Add new Company Client
-exports.addNewCompanyClient = (req, res, next) => {
+/*exports.addNewCompanyClient = (req, res, next) => {
     Company.find({email: req.body.email})
     .exec()
     .then( company => {
@@ -117,7 +117,7 @@ exports.addNewCompanyClient = (req, res, next) => {
                     })
                 }
             }); 
-        }
+        }*/
     //Add new StaffMenber
 exports.addNewStuffMember = ( req, res, next) => {
     Stuff.find({ _id: req.body._id })
@@ -163,36 +163,29 @@ exports.addNewStuffMember = ( req, res, next) => {
 }
 
 //Add new Individual client
-exports.newIndividualClient = ( req, res, next) => {
-    Individual.find({ email: req.body.email })
+exports.newClient = ( req, res, next) => {
+    Client.find({ email: req.body.email })
     .exec()
-    .then( individualClient => {
-        if(individualClient.length >= 1) {
+    .then( client => {
+        if(client.length >= 1) {
             return res.status(409).json({
                 message: 'Client with these details has already added.'
             });
         } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if(err){
-                    return res.status(500).json({
-                        error: 'Something went wrong'
-                    });
-        } else {
-            const individualClient = new Individual({
+            const client = new Client ({
                 _id: mongoose.Types.ObjectId(),
                 email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                fullName: req.body.firstName,
+                contactName: req.body.lastName,
                 idNumber: req.body.idNumber,
                 address: req.body.address,
                 phoneNumber: req.body.phoneNumber,
-                password: hash
             })
-            individualClient
+            client
             .save()
             .then( saved => {
                 res.status(200).json({
-                    message: 'New Individual Client Registered'
+                    message: 'New Client Added'
                 })
                 .catch( errors => {
                     res.status(500).json({
@@ -203,5 +196,4 @@ exports.newIndividualClient = ( req, res, next) => {
         }
     });
 }
-    });
-}
+

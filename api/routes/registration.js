@@ -9,13 +9,13 @@ const RoutesController = require('../controllers/registration');
 router.post('/new-guard', RoutesController.newGuardAccount);
 
 //Add new Company Client
-router.post('/new-company', RoutesController.addNewCompanyClient);
+/*router.post('/new-company', RoutesController.addNewCompanyClient);*/
 
 //Add new Stuff Member
 router.post('/new-stuff', RoutesController.addNewStuffMember);
 
 //Add Individual Client
-router.post('/new-individual', RoutesController.newIndividualClient);
+router.post('/new-client', RoutesController.newClient);
 
 module.exports = router;
 

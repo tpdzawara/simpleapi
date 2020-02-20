@@ -3,13 +3,12 @@ const Schema = mongoose.Schema;
 
 const Individual = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    firstName: { type: String, required: true},
-    lastName: { type: String, required: true},
+    fullName: { type: String, required: true},
     email: {type: String, required: true, unique: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
-    password: {type: String, required: true},
-    idNumber: { type: String, required: true },
+    contactName: { type: String, required: true },
     address: { type: String, required: true},
-    phoneNumber: { type: Number, require: true}
+    phoneNumber: { type: Number, required: true },
+    mobileNumber: { type: Number, required: true }
 
 });
 
