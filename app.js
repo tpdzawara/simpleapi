@@ -10,10 +10,10 @@ const app = express();
 const registrationRoute = require('./api/routes/registration');
 const adminROute = require('./api/routes/admin');
 //Database config
-const database = require('./api/utils/database');
+const { mongoURI } = require('./utils/database');
 
 //Connecting to mongoose
-mongoose.connect(database.mongoURI,
+mongoose.connect(mongoURI,
     {useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true })

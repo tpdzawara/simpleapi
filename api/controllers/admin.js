@@ -11,7 +11,7 @@ exports.getAllAdmin = (req, res, next) => {
     .exec()
     .then( doc => {
         res.status(201).json({
-            message: doc
+            message: 'no Adminstrator registered yet'
         });
     })
     .catch(er => {
