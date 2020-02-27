@@ -5,6 +5,8 @@ const cors = require('cors');
 
 const app = express();
 
+const authenticate = require('./api/middleware/authenticate');
+
 //import routes
 const registrationRoute = require('./api/routes/registration');
 const adminROute = require('./api/routes/admin');
@@ -27,7 +29,7 @@ app.use(express.json());
 
 app.use(morgan('dev'));
 
-app.use('/admin', registrationRoute);
+app.use('/admin', authenticate, registrationRoute);
 app.use('/admin', adminROute)
 
 
