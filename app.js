@@ -3,14 +3,13 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-
 const app = express();
 
 //import routes
 const registrationRoute = require('./api/routes/registration');
 const adminROute = require('./api/routes/admin');
 //Database config
-const { mongoURI } = require('./utils/database');
+const { mongoURI } = require('./api/utils/database');
 
 //Connecting to mongoose
 mongoose.connect(mongoURI,

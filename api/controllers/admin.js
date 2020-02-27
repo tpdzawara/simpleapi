@@ -64,55 +64,65 @@ exports.createNewAdmin = (req, res, next) => {
 
 //Login Admin
 exports.loginAdmin = (req, res, next) => {
-    Admin.find({ email: req.body.email })
+
+    Admin.find({email: req.body.email})
     .exec()
     .then(user => {
-        if(user.length <= 0) {
+        if(user.length <= 0){
             return res.status(500).json({
                 message: 'Something went wrong'
             });
-        } else {
-            bycrpt.compare(req.body.password, user[0], (err, result) =>{
+        }else{
+            // Load hash from your password DB.
+            //const user = user[0];
+            bcrypt.compare(req.body.password, user[0].password, function(err, result) {
                 console.log('err', err);
                 console.log('result', result);
                 
-                if(err) {
+                if(err){
                     return res.status(500).json({
                         error: 'Login Failed'
                     });
-                } else {
-                    if (result) {
-                        
-                        //Create token
+                }else{
+                    if(result){
+
+                        // Create token
                         const payload = {
                             userId: user[0]._id,
                             iat:  Math.floor(Date.now() / 1000) - 30,
                             exp: Math.floor(Date.now() / 1000) + (60 * 60),
                         }
-                        jwt.sign(payload, 'mysecretkey', (err, token) => {
-                            if(err) {
+                        jwt.sign(payload, 'mysecretkey', function(err, token) {
+                            
+                            if(err){
                                 return res.status(200).json({
                                     error: 'err'
                                 });
-                            } else {
+                            }else{
                                 res.status(200).json({
-                                    message: 'Login Succefully',
+                                    message: 'Login Successfully',
                                     token: token
                                 });
                             }
+                            
                         });
-                    } else {
+
+                        
+                    }else{
                         res.status(200).json({
                             message: 'Login Failed'
-                        });
+                        })
                     }
                 }
+                
+                
             });
         }
     })
-    .catch(err => {
+    .catch(er => {
         res.status(500).json({
-            error: err
+            error: er
         });
-    })
+    });
+
 }
