@@ -2,7 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+//This was missing
+const bodyParser = require('body-parser');
 const app = express();
 
 const authenticate = require('./api/middleware/authenticate');
@@ -23,13 +24,16 @@ mongoose.connect(mongoURI,
 //Preventing mongoose from global errors
 mongoose.Promise = global.Promise;
 
+
 app.use(cors());
 
-app.use(express.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(express.json());
+app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
-app.use('/admin', authenticate, registrationRoute);
+app.use('/admin', registrationRoute);
 app.use('/admin', adminROute)
 
 

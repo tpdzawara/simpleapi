@@ -7,8 +7,9 @@ const Individual = new Schema({
     email: {type: String, required: true, unique: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
     contactName: { type: String, required: true },
     address: { type: String, required: true},
-    phoneNumber: { type: Number, required: true },
-    mobileNumber: { type: Number, required: true }
+    phoneNumber: { type: String, required: true },
+    website: { type: String, required: true },
+    mobileNumber: { type: String, required: true }
 
 });
 

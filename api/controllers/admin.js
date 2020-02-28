@@ -32,11 +32,13 @@ exports.createNewAdmin = (req, res, next) => {
                 message: 'Already registered, try another email address'
             });
         } else {
+            //Was getting an error here, the req object was not geting parsed...
             bcrypt.hash(req.body.password, 10, function(err, hash) {
                 //Store hash in your password DB.
                 if(err) {
                     return res.status(500).json({
-                        error: err
+                        error: err,
+                        description: "Its a salting error"
                     });
                 } else {
                     const admin = new Admin({
@@ -51,24 +53,28 @@ exports.createNewAdmin = (req, res, next) => {
                             message:'Admin registered Succefully'
                         });
                     })
-                    .catch( er => {
+                    .catch( err => {
                         res.status(500).json({
-                            error: er
+                            error: err
                         });
                     });
                 }
             });
+
+
+            //
         }
     });
 }
 
 //Login Admin
 exports.loginAdmin = (req, res, next) => {
-
+    console.log(req.body);
     Admin.find({email: req.body.email})
     .exec()
     .then(user => {
         if(user.length <= 0){
+            console.log("User not found...");
             return res.status(500).json({
                 message: 'Something went wrong'
             });
@@ -80,6 +86,7 @@ exports.loginAdmin = (req, res, next) => {
                 console.log('result', result);
                 
                 if(err){
+
                     return res.status(500).json({
                         error: 'Login Failed'
                     });

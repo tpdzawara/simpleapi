@@ -8,7 +8,7 @@ const StuffSchema = new Schema({
     surName: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
     address: { type: String, required: true },
-    phoneNumber:{ type: Number, required: true},
+    phoneNumber:{ type: String, required: true}, 
     idNumber: { type: String, required: true },
     nationality: { type: String, required: true },
     gender: { type: String, required: true },

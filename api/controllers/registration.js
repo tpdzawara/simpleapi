@@ -9,8 +9,10 @@ const Stuff = require('../models/Stuff');
 const Client = require('../models/Client');
 
 //New Guard registration 16
+//Cast error here if I'm creating a doc i would have to generate a mongo format id for _id
+//????
 exports.newGuardAccount = (req, res, next) => {
-    Guard.find({ _id: req.body._id })
+    Guard.find({ firstName: req.body.firstName })
         .exec()
         .then(guard => {
             if (guard.length >>= 1) {
@@ -19,11 +21,13 @@ exports.newGuardAccount = (req, res, next) => {
                     message: 'Guard already exist'
                 });
             } else {
+                        //left out the phoneNumber field here...
                         const guard = new Guard({
-                            _id: mongoose.Types.ObjectId(),
+                            _id: new mongoose.Types.ObjectId(), // was missing 'new' keyword here
                             firstName: req.body.firstName,
                             lastName: req.body.lastName,
-                            address: req.body.address
+                            address: req.body.address,
+                            phoneNumber: req.body.phoneNumber
                         });
                         guard.save()
                             .then(doc => {
@@ -32,6 +36,7 @@ exports.newGuardAccount = (req, res, next) => {
                                 });
                             })
                             .catch(err => {
+                                console.log(err)
                                 res.status(500).json({
                                     error: err
                                 });
@@ -41,7 +46,7 @@ exports.newGuardAccount = (req, res, next) => {
             }
     //Add new StaffMenber
 exports.addNewStuffMember = ( req, res, next) => {
-    Stuff.find({ _id: req.body._id })
+    Stuff.find({ phoneNumber: req.body.phoneNumber }) // will give a cast error, I would have to generate a mongo id format ku frontend just to save a doc ?????
     .exec()
     .then(stuffMember => {
 
@@ -51,10 +56,10 @@ exports.addNewStuffMember = ( req, res, next) => {
             });
         } else {
            const stuffMember = new Stuff({
-                _id: mongoose.Types.ObjectId(),
+                _id: new mongoose.Types.ObjectId(), // new here
                 firstName: req.body.firstName,
-                surName: req.body.surName,
-                dateOfBirth: req.body.dateOfBirth,
+                surName: req.body.lastName,
+                dateOfBirth: req.body.dob,
                 address: req.body.address,
                 phoneNumber: req.body.phoneNumber,
                 idNumber: req.body.idNumber,
@@ -63,17 +68,17 @@ exports.addNewStuffMember = ( req, res, next) => {
                 department: req.body.department,
                 jobDescription: req.body.jobDescription,
                 employmentType: req.body.employmentType,
-                payRate: req.body.payRate,
+                payRate: req.body.payrate,
                 startDate: req.body.startDate
            });
-           stuffMember
-           .save()
+           stuffMember.save()
            .then( stuff => {
                res.status(200).json({
                    message: 'New Stuff Member added.'
                });
            })
            .catch( eror => {
+              console.log(eror)
             res.status(500).json({
                 error: eror
             });
@@ -93,26 +98,29 @@ exports.newClient = ( req, res, next) => {
             });
         } else {
             const client = new Client ({
-                _id: mongoose.Types.ObjectId(),
+                _id: new mongoose.Types.ObjectId(), //new
                 email: req.body.email,
-                fullName: req.body.firstName,
-                contactName: req.body.lastName,
-                idNumber: req.body.idNumber,
+                fullName: req.body.client,
+                contactName: req.body.contactName,
+                idNumber: req.body.mobileNumber,
                 address: req.body.address,
+                website: req.body.website, // left out but required
+                mobileNumber: req.body.mobileNumber, // left out
                 phoneNumber: req.body.phoneNumber,
             })
-            client
-            .save()
+            client.save()
             .then( saved => {
                 res.status(200).json({
                     message: 'New Client Added'
                 })
+            }) 
                 .catch( errors => {
+                    console.log(errors)
                     res.status(500).json({
                         error: errors
                     });
                 });
-            });
+            
         }
     });
 }
