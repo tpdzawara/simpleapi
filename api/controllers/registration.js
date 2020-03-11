@@ -44,7 +44,25 @@ exports.newGuardAccount = (req, res, next) => {
                     }
                 });
             }
-    //Add new StaffMenber
+
+//get All guards
+exports.allGuards = function (req, res, next) {
+    Guard.find({})
+    .select('_id firstName  lastName  address phoneNumber')
+    .exec()
+    .then(guards => {
+        res.status(200).json({message: guards})
+    })
+    .catch( err => {
+        res.status(500).json({
+            error: err
+        })
+    })
+}
+
+
+
+ //Add new StaffMenber
 exports.addNewStuffMember = ( req, res, next) => {
     Stuff.find({ phoneNumber: req.body.phoneNumber }) // will give a cast error, I would have to generate a mongo id format ku frontend just to save a doc ?????
     .exec()
@@ -87,6 +105,19 @@ exports.addNewStuffMember = ( req, res, next) => {
     })  
 }
 
+//Get Stuff
+exports.allStuffMembers = function (req, res, next) {
+    Stuff.find({})
+    .select('_id firstName surName dateOfBirth address phoneNumber idNumber nationality gender department jobDescription employmentType payRate startDate')
+    .exec()
+    .then(stuffMember => {
+        res.status(200).json({
+            message: stuffMember
+        })
+    })
+    .catch(er => { res.status(500).json({ error: er })})
+}
+
 //Add new Individual client
 exports.newClient = ( req, res, next) => {
     Client.find({ email: req.body.email })
@@ -125,3 +156,18 @@ exports.newClient = ( req, res, next) => {
     });
 }
 
+exports.allClients = (req, res, next) => {
+    Client.find({})
+    .select('_id email firstName lastName idNumber address phoneNumber ')
+    .exec()
+    .then(client => {
+        res.status(200).json({
+            message: client
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            })
+        })
+    });
+}
