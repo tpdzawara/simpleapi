@@ -9,7 +9,7 @@ const RoutesController = require('../controllers/registration');
 router.post('/new-guard', authenticate, RoutesController.newGuardAccount);
 
 //Get all guards
-router.get('guards', RoutesController.allGuards);
+router.get('/guards', RoutesController.allGuards);
 
 //Add new Stuff Member
 router.post('/new-stuff', authenticate, RoutesController.addNewStuffMember);

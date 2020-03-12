@@ -1,9 +1,10 @@
 {
     "email": "jameswagon@gmail.com",
-    "firstName": "James",
-    "lastName": "Wagon",
+    "fullName": "James Wagon",
+    "contactName": "Dane Robinson",
     "idNumber": "68-346368S68",
     "address": "25 Tumbare road",
-    "phoneNumber": "38338448",
-    "password": "4388"
+    "website": "www.jmswagon.org",
+    "mobileNumber": "07958439388",
+    "phoneNumber": "38338448"
 }

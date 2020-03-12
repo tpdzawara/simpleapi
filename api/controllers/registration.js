@@ -76,8 +76,8 @@ exports.addNewStuffMember = ( req, res, next) => {
            const stuffMember = new Stuff({
                 _id: new mongoose.Types.ObjectId(), // new here
                 firstName: req.body.firstName,
-                surName: req.body.lastName,
-                dateOfBirth: req.body.dob,
+                surName: req.body.surName,
+                dateOfBirth: req.body.dateOfBirth,
                 address: req.body.address,
                 phoneNumber: req.body.phoneNumber,
                 idNumber: req.body.idNumber,
@@ -86,7 +86,7 @@ exports.addNewStuffMember = ( req, res, next) => {
                 department: req.body.department,
                 jobDescription: req.body.jobDescription,
                 employmentType: req.body.employmentType,
-                payRate: req.body.payrate,
+                payRate: req.body.payRate,
                 startDate: req.body.startDate
            });
            stuffMember.save()
@@ -131,7 +131,7 @@ exports.newClient = ( req, res, next) => {
             const client = new Client ({
                 _id: new mongoose.Types.ObjectId(), //new
                 email: req.body.email,
-                fullName: req.body.client,
+                fullName: req.body.fullName,
                 contactName: req.body.contactName,
                 idNumber: req.body.mobileNumber,
                 address: req.body.address,
