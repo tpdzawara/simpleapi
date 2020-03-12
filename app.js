@@ -29,7 +29,7 @@ app.use(cors());
 
 //app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(express.json());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // express.json and bodyparser works the same thing new express comes with innbuilt jsonparser
 
 app.use(morgan('dev'));
 
