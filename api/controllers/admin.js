@@ -5,26 +5,22 @@ const jwt = require('jsonwebtoken');
 const  Admin  = require('../models/Admin');
 
 //Get all admin registered
-exports.getAllAdmin = (req, res, next) => {
+exports.getAllAdmin = async (req, res, next) => {
 
-    Admin.find({})
-    .exec()
-    .then( doc => {
-        res.status(201).json({
-            message: 'no Adminstrator registered yet'
-        });
-    })
-    .catch(er => {
-        res.status(500).json({
-            error: er
-        })
-    });
+   try {
+       const admin = await Admin.find();
+
+       res
+        .status(200)
+        .json({ success: true, count: admin.length, data: admin });
+   } catch (error) {
+       next(error);
+   }
 }
 
 //Create Admin Account
-exports.createNewAdmin = (req, res, next) => {
-
-    Admin.find({ email: req.body.email })
+exports.createNewAdmin = function (req, res, next) {
+ Admin.find({ email: req.body.email })
     .exec()
     .then(user => {
         if( user.length > 0) {
@@ -43,7 +39,7 @@ exports.createNewAdmin = (req, res, next) => {
                 } else {
                     const admin = new Admin({
                         _id: new mongoose.Types.ObjectId(),
-                        fullName: req.body.fullName,
+                        userName: req.body.userName,
                         email: req.body.email,
                         password: hash
                     });
@@ -74,7 +70,7 @@ exports.loginAdmin = (req, res, next) => {
     .exec()
     .then(user => {
         if(user.length <= 0){
-            console.log("User not found...");
+            console.log("email not found...");
             return res.status(500).json({
                 message: 'Something went wrong'
             });
@@ -102,7 +98,7 @@ exports.loginAdmin = (req, res, next) => {
                         jwt.sign(payload, 'mysecretkey', function(err, token) {
                             
                             if(err){
-                                return res.status(200).json({
+                                return res.status(401).json({
                                     error: 'err'
                                 });
                             }else{
@@ -116,7 +112,7 @@ exports.loginAdmin = (req, res, next) => {
 
                         
                     }else{
-                        res.status(200).json({
+                        res.status(401).json({
                             message: 'Login Failed'
                         })
                     }
