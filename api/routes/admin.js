@@ -8,7 +8,7 @@ router.get('/', AdminController.getAllAdmin);
 
 //register admin
 router.post('/signup', AdminController.createNewAdmin);
-
+ 
 //login admin
 router.post('/login', AdminController.loginAdmin)
 

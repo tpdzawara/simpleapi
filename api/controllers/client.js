@@ -13,7 +13,7 @@ exports.newClient = asyncHandler(async( req, res, next) => {
            website: req.body.website,
            mobileNumber: req.body.mobileNumber 
     })
- if (!client) {
+ if (client >= 1) {
      return next(
          new ErrorResponse(`Error while adding new client either you put an invalid vlue`, 401)
      )

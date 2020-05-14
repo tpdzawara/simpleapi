@@ -1,131 +1,66 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('../middleware/async');
+const errorHandler = require('../utils/errorResponse');
 
 const  Admin  = require('../models/Admin');
 
 //Get all admin registered
-exports.getAllAdmin = async (req, res, next) => {
-
-   try {
+exports.getAllAdmin = asyncHandler(async (req, res, next) => {
        const admin = await Admin.find();
-
+       if(!admin){
+           return next(
+               new errorHandler(`Users not found please make sure you are using correct route`)
+           )
+       }
        res
         .status(200)
         .json({ success: true, count: admin.length, data: admin });
-   } catch (error) {
-       next(error);
-   }
-}
+});
 
 //Create Admin Account
-exports.createNewAdmin = function (req, res, next) {
- Admin.find({ email: req.body.email })
-    .exec()
-    .then(user => {
-        if( user.length > 0) {
-            return res.status(500).json({
-                message: 'Already registered, try another email address'
-            });
-        } else {
-            //Was getting an error here, the req object was not geting parsed...
-            bcrypt.hash(req.body.password, 10, function(err, hash) {
-                //Store hash in your password DB.
-                if(err) {
-                    return res.status(500).json({
-                        error: err,
-                        description: "Its a salting error"
-                    });
-                } else {
-                    const admin = new Admin({
-                        _id: new mongoose.Types.ObjectId(),
-                        userName: req.body.userName,
-                        email: req.body.email,
-                        password: hash
-                    });
-                    admin.save()
-                    .then(doc => {
-                        res.status(201).json({
-                            message:'Admin registered Succefully'
-                        });
-                    })
-                    .catch( err => {
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
-                }
-            });
+exports.createNewAdmin =  asyncHandler(async (req, res, next) => {
+    const { email, password, username } = req.body;
+ //validate
+ if(! email || !password || !username) 
+     return res.status(400).json({message: "not all fields have been entered"});
+ if(password.length < 6)
+ return res.status(400).json({message: "the password needs to be at least 6 characters long"});
 
+ const admin = await Admin.findOne({email: email})
+ if (admin)
+ return res.status(400).json({message: "user with this email already existed"});
 
-            //
-        }
-    });
-}
+ const salt = await bcrypt.genSalt();
+ const passwordhash = await bcrypt.hash(password, salt);
+
+ const newAdmin  = new Admin({
+     username,
+     email,
+     password: passwordhash,
+ })
+ const saveAdmin = await newAdmin.save();
+ res.status(200).json(saveAdmin);
+});
 
 //Login Admin
-exports.loginAdmin = (req, res, next) => {
-    console.log(req.body);
-    Admin.find({email: req.body.email})
-    .exec()
-    .then(user => {
-        if(user.length <= 0){
-            console.log("email not found...");
-            return res.status(500).json({
-                message: 'Something went wrong'
-            });
-        }else{
-            // Load hash from your password DB.
-            //const user = user[0];
-            bcrypt.compare(req.body.password, user[0].password, function(err, result) {
-                console.log('err', err);
-                console.log('result', result);
-                
-                if(err){
+exports.loginAdmin = asyncHandler(async(req, res, next) => {
+const { email, password } = req.body;
+//validate
+if(!email || !password)
+return res.status(401).json({message: "Not all fields have been entered."});
 
-                    return res.status(500).json({
-                        error: 'Login Failed'
-                    });
-                }else{
-                    if(result){
+const admin = await Admin.findOne({email: email})
+if(!admin)
+return res.status(401).json({message: "No registered account with this email."});
+ const isMatch = bcrypt.compare(password, admin.password);
+ if(!isMatch)
+ return res.status(500).json({message: "invalid credentials"});
 
-                        // Create token
-                        const payload = {
-                            userId: user[0]._id,
-                            iat:  Math.floor(Date.now() / 1000) - 30,
-                            exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                        }
-                        jwt.sign(payload, 'mysecretkey', function(err, token) {
-                            
-                            if(err){
-                                return res.status(401).json({
-                                    error: 'err'
-                                });
-                            }else{
-                                res.status(200).json({
-                                    message: 'Login Successfully',
-                                    token: token
-                                });
-                            }
-                            
-                        });
-
-                        
-                    }else{
-                        res.status(401).json({
-                            message: 'Login Failed'
-                        })
-                    }
-                }
-                
-                
-            });
-        }
-    })
-    .catch(er => {
-        res.status(500).json({
-            error: er
-        });
-    });
-
-}
+ const token = jwt.sign({id: admin._id}, 'mysecretkey');
+ res.json({
+    admin,
+     token
+ })
+});
